@@ -18,6 +18,6 @@
   * ↓ たぶんこのあたり？
 ```
 ui/public/img/
-ui/assets/img/
+ui/src/assets/img/
 ```
 * フロントの人にお任せします
