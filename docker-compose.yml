@@ -1,0 +1,63 @@
+version: '3'
+
+services:
+
+  ui:
+    container_name: ui
+    build:
+      context: .
+      dockerfile: ./docker/vue/Dockerfile
+    ports:
+      - 8080:8080
+    volumes:
+      - ./ui:/ui
+    command: yarn serve
+
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: ./docker/golang/Dockerfile
+    ports:
+      - 8888:8888
+    links:
+      - db
+    tty:
+      true
+    volumes:
+      - ./api:/go/src/api
+
+  db:
+    container_name: db
+    build:
+      context: .
+      dockerfile: ./docker/mysql/Dockerfile
+    platform: linux/x86_64
+    tty: true
+    ports:
+      - 3306:3306
+    env_file:
+      - ./.env
+    volumes:
+    - mysql-data-volume:/var/lib/mysql
+    - ./docker/mysql/my.conf:/etc/mysql/my.conf
+    - ./docker/mysql/initdb.d:/docker-entrypoint-initdb.d
+
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=db
+      - PMA_USER=admin
+      - PMA_PASSWORD=admin
+    links:
+      - db
+    ports:
+      - 4040:80
+    volumes:
+      - .docker/phpmyadmin/sessions:/sessions
+
+volumes:
+  mysql-data-volume:
+    name: nflaquiz-mysql-data-volume
