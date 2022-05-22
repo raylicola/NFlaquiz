@@ -56,7 +56,7 @@ services:
     ports:
       - 4040:80
     volumes:
-      - .docker/phpmyadmin/sessions:/sessions
+      - ./docker/phpmyadmin/sessions:/sessions
 
 volumes:
   mysql-data-volume:
