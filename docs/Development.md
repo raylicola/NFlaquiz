@@ -6,9 +6,9 @@
 ## フォルダ構成 (Folder Structure)
 ```
 NFlaquiz/
-　├ docker/ -> Dockerfileの情報
-　├ api/    -> バックエンド
-　├ vue     -> フロントエンド
-　├ .env    -> 環境変数
+　├ docker/ -> Information for Dockerfile
+　├ api/    -> Backend
+　├ vue     -> Frontend
+　├ .env    -> environment variable
 　└ docker-compose.yml
  ```
