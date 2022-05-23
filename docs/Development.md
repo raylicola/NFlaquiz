@@ -1,9 +1,9 @@
-## Branch
-* develop, master 上では作業しない
-* develop からブランチを切ってここで作業する
-* Pull requestごとにブランチを切る
+## ブランチ (Branch)
+* develop, master 上では作業しない (Should not work on "master" and "develop" branch.)
+* develop からブランチを切ってここで作業する (Cut a branch from "develop" and work here.)
+* Pull requestごとにブランチを切る ("One branch" and "one pull request" correspond one-to-one)
 
-## フォルダ構成
+## フォルダ構成 (Folder Structure)
 ```
 NFlaquiz/
 　├ docker/ -> Dockerfileの情報
