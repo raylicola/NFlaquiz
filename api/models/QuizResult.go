@@ -1,11 +1,7 @@
 package models
 
-import (
-	"gorm.io/gorm"
-)
-
 type QuizResult struct {
-	gorm.Model
+	ID uint `gorm:"primary_key"`
   Weight      int
   QuizId      int
   UserId      int

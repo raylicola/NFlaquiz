@@ -1,12 +1,8 @@
 package models
 
-import (
-	"gorm.io/gorm"
-)
-
 type Bookmark struct {
-	gorm.Model
+	ID uint `gorm:"primary_key"`
 	CountryId string
-	UserId    int
+	UserID    int
 	User      User
 }

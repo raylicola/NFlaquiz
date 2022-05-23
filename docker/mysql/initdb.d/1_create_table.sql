@@ -2,54 +2,54 @@ set global local_infile = 1;
 
 USE nflaquiz;
 
-CREATE TABLE area
+CREATE TABLE areas
 (
   id VARCHAR(30),
   name VARCHAR(10),
   PRIMARY KEY(id)
 );
 
-CREATE TABLE color
+CREATE TABLE colors
 (
   id VARCHAR(10),
   name VARCHAR(10),
   PRIMARY KEY(id)
 );
 
-CREATE TABLE country
+CREATE TABLE countries
 (
   id VARCHAR(2),
   area_id VARCHAR(30),
   name VARCHAR(20),
   description VARCHAR(200),
-  FOREIGN KEY (area_id) REFERENCES area(id),
+  FOREIGN KEY (area_id) REFERENCES areas(id),
   PRIMARY KEY(id)
 );
 
-CREATE TABLE flag_color
+CREATE TABLE flag_colors
 (
   id INT NOT NULL AUTO_INCREMENT UNIQUE,
   country_id VARCHAR(2),
   color_id VARCHAR(10),
-  FOREIGN KEY (country_id) REFERENCES country(id),
-  FOREIGN KEY (color_id) REFERENCES color(id),
+  FOREIGN KEY (country_id) REFERENCES countries(id),
+  FOREIGN KEY (color_id) REFERENCES colors(id),
   PRIMARY KEY(id)
 );
 
-CREATE TABLE quiz
+CREATE TABLE quizzes
 (
   id INT NOT NULL AUTO_INCREMENT UNIQUE,
   hiragana VARCHAR(30),
   country_id VARCHAR(2),
-  FOREIGN KEY (country_id) REFERENCES country(id),
+  FOREIGN KEY (country_id) REFERENCES countries(id),
   PRIMARY KEY(id)
 );
 
-CREATE TABLE hint
+CREATE TABLE hints
 (
   id INT NOT NULL AUTO_INCREMENT UNIQUE,
   content VARCHAR(200),
   country_id VARCHAR(2),
-  FOREIGN KEY (country_id) REFERENCES country(id),
+  FOREIGN KEY (country_id) REFERENCES countries(id),
   PRIMARY KEY(id)
 );
