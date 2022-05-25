@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"errors"
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -11,6 +10,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
+
 
 // ユーザー登録
 // Parameters
@@ -25,8 +25,9 @@ func Signup(email, password, password_confirm string) (*models.User, error) {
   var user models.User
 
   // 登録済みの場合
-  err := database.DB.Where("email = ?", email).First(&user).Error
-  if !errors.Is(err, gorm.ErrRecordNotFound) {
+  res := database.DB.Where("email = ?", email).First(&user)
+
+  if !errors.Is(res.Error, gorm.ErrRecordNotFound) {
     err := errors.New("メールアドレスが既に登録されています。")
     return nil, err
   }
@@ -54,12 +55,13 @@ func Signup(email, password, password_confirm string) (*models.User, error) {
   return &user, nil
 }
 
+
 func GetSignup(c *gin.Context) {
-  c.JSON(http.StatusOK, gin.H{"message": "Get Signup"})
+  c.JSON(http.StatusOK, gin.H{"msg": "Get Signup"})
 }
 
+
 func PostSignup(c *gin.Context) {
-  log.Println(c.PostForm("email"))
   email := c.PostForm("email")
   password := c.PostForm("password")
   password_confirm := c.PostForm("password_confirm")
@@ -67,7 +69,7 @@ func PostSignup(c *gin.Context) {
   user, err := Signup(email, password, password_confirm)
 
   if err != nil {
-    c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+    c.JSON(http.StatusInternalServerError, gin.H{"err_msg": err.Error()})
     return
   }
   c.JSON(http.StatusOK, gin.H{"user": user})
