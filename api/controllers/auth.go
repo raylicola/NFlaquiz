@@ -10,8 +10,6 @@ import (
 )
 
 // ユーザー情報の取得
-// Returns
-//    {"user": models.User}
 func Auth(c *gin.Context){
 	cookie, err := c.Cookie("jwt")
 
@@ -28,10 +26,10 @@ func Auth(c *gin.Context){
 		return
 	}
 	claims := token.Claims.(jwt.MapClaims)
-	email := claims["email"]
+	id := claims["sub"]
 
 	var user models.User
-	database.DB.Where("email = ?", email).First(&user)
+	database.DB.Where("id = ?", id).First(&user)
 
 	c.JSON(http.StatusOK, gin.H{"user": user})
 }
