@@ -20,7 +20,6 @@ import (
 //
 // Returns
 //    err: error 処理中に発生したエラー
-//    &user: models.User 新規登録したユーザーの情報
 func Signup(email, password, password_confirm string) (*models.User, error) {
   var user models.User
 
@@ -56,25 +55,21 @@ func Signup(email, password, password_confirm string) (*models.User, error) {
 }
 
 
-// Returns
-//    {"msg": "Get Signup"}
 func GetSignup(c *gin.Context) {
   c.JSON(http.StatusOK, gin.H{"msg": "Get Signup"})
 }
 
 
-// Returns
-//    {"user": models.User}
 func PostSignup(c *gin.Context) {
   email := c.PostForm("email")
   password := c.PostForm("password")
   password_confirm := c.PostForm("password_confirm")
 
-  user, err := Signup(email, password, password_confirm)
+  _, err := Signup(email, password, password_confirm)
 
   if err != nil {
     c.JSON(http.StatusInternalServerError, gin.H{"err_msg": err.Error()})
     return
   }
-  c.JSON(http.StatusOK, gin.H{"user": user})
+  c.JSON(http.StatusOK, gin.H{"msg": "Post Signup"})
 }

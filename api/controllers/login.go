@@ -40,15 +40,11 @@ func Login(email, password string) (*models.User, error) {
 }
 
 
-// Returns
-//    {"msg": "Get Login"}
 func GetLogin(c *gin.Context) {
   c.JSON(http.StatusOK, gin.H{"msg": "Get Login"})
 }
 
 
-// Returns
-//    {"user": models.User}
 func PostLogin(c *gin.Context) {
   email := c.PostForm("email")
   password := c.PostForm("password")
@@ -62,7 +58,7 @@ func PostLogin(c *gin.Context) {
 
   // ユーザー認証の設定
   claims := jwt.MapClaims{
-		"email": user.Email,
+		"sub": user.ID,
 		"exp":   time.Now().Add(time.Hour * 24).Unix(),
 	}
   // ヘッダーとペイロードの生成
@@ -84,6 +80,5 @@ func PostLogin(c *gin.Context) {
       c.SetCookie("jwt", cookie.Value, 3600, "/", "your_domain", true, true)
   }
 
-  c.JSON(http.StatusOK, gin.H{"user": user})
+  c.JSON(http.StatusOK, gin.H{"jwt": tokenString})
 }
-
