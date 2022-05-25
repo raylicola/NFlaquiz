@@ -22,7 +22,7 @@ services:
       - 8888:8888
     env_file:
       - ./.env
-    links:
+    depends_on:
       - db
     tty:
       true
