@@ -11,7 +11,7 @@ import (
 
 // ユーザー情報の取得
 // Returns
-//    user:
+//    {"user": models.User}
 func Auth(c *gin.Context){
 	cookie, err := c.Cookie("jwt")
 

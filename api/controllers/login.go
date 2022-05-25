@@ -1,7 +1,6 @@
 package controllers
 
 import (
-  "log"
 	"errors"
 	"net/http"
 	"os"
@@ -14,12 +13,13 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+
 // ログイン
 //    email: メールアドレス
 //    password: パスワード
 // Returns
-//    err: error 処理中に発生したエラー
 //    &user: models.User ログインユーザーの情報
+//    err: error 処理中に発生したエラー
 func Login(email, password string) (*models.User, error) {
   var user models.User
 
@@ -40,11 +40,15 @@ func Login(email, password string) (*models.User, error) {
 }
 
 
+// Returns
+//    {"msg": "Get Login"}
 func GetLogin(c *gin.Context) {
   c.JSON(http.StatusOK, gin.H{"msg": "Get Login"})
 }
 
 
+// Returns
+//    {"user": models.User}
 func PostLogin(c *gin.Context) {
   email := c.PostForm("email")
   password := c.PostForm("password")
@@ -69,6 +73,7 @@ func PostLogin(c *gin.Context) {
   cookie := new(http.Cookie)
   cookie.Value = tokenString
 
+  // ローカル環境の場合
   c.SetSameSite(http.SameSiteNoneMode)
   if os.Getenv("ENV") == "local" {
     c.SetCookie("jwt", cookie.Value, 3600, "/", "localhost", true, true)
@@ -79,10 +84,6 @@ func PostLogin(c *gin.Context) {
       c.SetCookie("jwt", cookie.Value, 3600, "/", "your_domain", true, true)
   }
 
-  log.Println(claims)
-  log.Println(token)
-  log.Println(tokenString)
-
-  c.JSON(http.StatusOK, gin.H{"jwt": tokenString})
+  c.JSON(http.StatusOK, gin.H{"user": user})
 }
 

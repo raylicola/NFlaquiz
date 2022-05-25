@@ -56,11 +56,15 @@ func Signup(email, password, password_confirm string) (*models.User, error) {
 }
 
 
+// Returns
+//    {"msg": "Get Signup"}
 func GetSignup(c *gin.Context) {
   c.JSON(http.StatusOK, gin.H{"msg": "Get Signup"})
 }
 
 
+// Returns
+//    {"user": models.User}
 func PostSignup(c *gin.Context) {
   email := c.PostForm("email")
   password := c.PostForm("password")
