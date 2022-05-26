@@ -1,6 +1,6 @@
 package models
 
 type Color struct {
-	ID uint `gorm:"primary_key"`
+	ID string `gorm:"primary_key"`
 	Name string
 }
