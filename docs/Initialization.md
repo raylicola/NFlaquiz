@@ -12,7 +12,7 @@ NFlauiz/
 
 2. 自分の環境でnode_modules を再インストールして以下に配置 (Reinstall node_modules in your environment and place it below.)
     * [node_modulesの再インストール方法](https://zenn.dev/mo_ri_regen/articles/node-modules-article)
-    * docker-compose.ymlで指定したnodeのバージョンに合わせる
+    * node version -> 16.14
 ```
 NFlauiz/
 　└ ui/
