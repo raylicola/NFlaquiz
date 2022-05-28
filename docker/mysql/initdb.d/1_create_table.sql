@@ -41,15 +41,9 @@ CREATE TABLE quizzes
   id INT NOT NULL AUTO_INCREMENT UNIQUE,
   hiragana VARCHAR(30),
   country_id VARCHAR(2),
-  FOREIGN KEY (country_id) REFERENCES countries(id),
-  PRIMARY KEY(id)
-);
-
-CREATE TABLE hints
-(
-  id INT NOT NULL AUTO_INCREMENT UNIQUE,
-  content VARCHAR(200),
-  country_id VARCHAR(2),
+  hint1 VARCHAR(50),
+  hint2 VARCHAR(50),
+  hint3 VARCHAR(50),
   FOREIGN KEY (country_id) REFERENCES countries(id),
   PRIMARY KEY(id)
 );
