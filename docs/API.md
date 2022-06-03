@@ -2,7 +2,7 @@
 
 | URL     | メソッド | やること                       | 受け取る値                        | 返す値      | 
 | ------- | -------- | ------------------------------ | --------------------------------- | ----------- | 
-| /signup | POST     | ユーザーの新規登録             | email, password, password_confirm |             | 
+| /signup | POST     | 新規ユーザーをDBに登録         | email, password, password_confirm |             | 
 | /login  | POST     | ログイン                       | email, password                   |Cookieにセットしたトークン<br>{"jwt": tokenString}| 
 | /logout | GET      | ログアウト                     |                                   |             | 
 
