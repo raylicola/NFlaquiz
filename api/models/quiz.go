@@ -1,10 +1,11 @@
 package models
 
 type Quiz struct {
-	ID        uint `gorm:"primary_key"`
-	Hiragana  string
-	CountryID string
-	Hint1     string
-	Hint2     string
-	Hint3     string
+	ID         uint    `json:"id" gorm:"primary_key"`
+	Hiragana   string  `json:"hiragana"`
+	CountryID  string
+	Country    Country
+	Hint1      string  `json:"hint1"`
+	Hint2      string  `json:"hint2"`
+	Hint3      string  `json:"hint3"`
 }

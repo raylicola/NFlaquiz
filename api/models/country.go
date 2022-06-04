@@ -1,8 +1,9 @@
 package models
 
 type Country struct {
-	ID string `gorm:"primary_key"`
-	Name string
-	AreaID string
-	Description string
+	ID            string  `json:"id" gorm:"primary_key"`
+	Name          string  `json:"name"`
+	AreaID        string
+	Area          Area
+	Description   string  `json:"description"`
 }

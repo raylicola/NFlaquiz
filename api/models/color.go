@@ -1,6 +1,6 @@
 package models
 
 type Color struct {
-	ID string `gorm:"primary_key"`
-	Name string
+	ID    string  `json:"id" gorm:"primary_key"`
+	Name  string  `json:"name"`
 }

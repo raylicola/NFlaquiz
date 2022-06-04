@@ -6,7 +6,9 @@ import (
 
 type QuizResult struct {
 	gorm.Model
-  Weight      int
+  Weight      int  `json:"weight"`
   QuizId      int
+  Quiz        Quiz
   UserId      int
+  User        User
 }
