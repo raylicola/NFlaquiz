@@ -1,9 +1,9 @@
 package models
 
 type FlagColor struct {
-	ID         int    `gorm:"primary_key"`
-	CountryID  string
+	ID         int     `json:"id" gorm:"primary_key"`
+	CountryID  string  `json:"country_id"`
 	Country    Country
-	ColorID    string
+	ColorID    string  `json:"color_id"`
 	Color      Color
 }

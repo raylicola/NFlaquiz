@@ -1,9 +1,9 @@
 package models
 
 type Bookmark struct {
-	ID          int
-	CountryID   string
+	ID          int     `json:"id" gorm:"primary_key"`
+	CountryID   string  `json:"country_id"`
 	Country     Country
-	UserID      int
+	UserID      int     `json:"user_id"`
 	User        User
 }
