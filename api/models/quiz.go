@@ -1,7 +1,7 @@
 package models
 
 type Quiz struct {
-	ID         uint    `json:"id" gorm:"primary_key"`
+	ID         int    `json:"id" gorm:"primary_key"`
 	Hiragana   string  `json:"hiragana"`
 	CountryID  string
 	Country    Country

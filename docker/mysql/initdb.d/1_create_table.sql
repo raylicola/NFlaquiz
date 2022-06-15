@@ -47,3 +47,29 @@ CREATE TABLE quizzes
   FOREIGN KEY (country_id) REFERENCES countries(id),
   PRIMARY KEY(id)
 );
+
+CREATE TABLE users
+(
+  id INT NOT NULL AUTO_INCREMENT UNIQUE,
+  email VARCHAR(100),
+  password LONGBLOB,
+  PRIMARY KEY(id)
+);
+
+CREATE TABLE bookmarks
+(
+  id INT NOT NULL AUTO_INCREMENT UNIQUE,
+  country_id VARCHAR(2),
+  FOREIGN KEY (country_id) REFERENCES countries(id),
+  PRIMARY KEY(id)
+);
+
+CREATE TABLE quiz_results
+(
+  id INT NOT NULL AUTO_INCREMENT UNIQUE,
+  country_id VARCHAR(2),
+  user_id INT,
+  FOREIGN KEY (country_id) REFERENCES countries(id),
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  PRIMARY KEY(id)
+);

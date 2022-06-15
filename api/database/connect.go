@@ -2,7 +2,6 @@ package database
 
 import (
   "os"
-  "github.com/raylicola/NFlaquiz/models"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -25,10 +24,4 @@ func Connect() {
   }
 
   DB = db
-
-  db.AutoMigrate(
-    &models.User{},
-    &models.Bookmark{},
-    &models.QuizResult{},
-  )
 }
