@@ -16,7 +16,10 @@ import (
 )
 
 
-// ユーザー情報の取得
+// Cookieからユーザー情報を取得する
+// 戻り値:
+//   成功時：ユーザー情報
+//   失敗時：エラー情報
 func User(c *gin.Context) (*models.User, error){
 	cookie, err := c.Cookie("jwt")
 
@@ -39,25 +42,29 @@ func User(c *gin.Context) (*models.User, error){
 	return &user, nil
 }
 
-/*
-ログイン
-  email: メールアドレス
-  password: パスワード
-*/
+
+// ログイン
+// 受信：
+//   email:メールアドレス
+//   password:パスワード
+// 返り値:
+//   成功時：jwtトークン
+//   失敗時：エラーメッセージ(400)
 func Login(c *gin.Context) {
 	var user models.User
   email := c.PostForm("email")
   password := c.PostForm("password")
 
+	// メールアドレスが未登録の場合
   res := database.DB.Where("email = ?", email).First(&user)
 	if res.Error != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"err_msg": res.Error})
+		c.JSON(http.StatusBadRequest, gin.H{"err_msg": "メールアドレスまたはパスワードが違います"})
 		return
 	}
 
 	// パスワードが間違っている場合
 	if err := bcrypt.CompareHashAndPassword(user.Password, []byte(password)); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"err_msg": "メールアドレスまたはパスワードが違います"})
+		c.JSON(http.StatusBadRequest, gin.H{"err_msg": "メールアドレスまたはパスワードが違います"})
 		return
 	}
 
@@ -90,57 +97,47 @@ func Login(c *gin.Context) {
 
 
 // ログアウト
+// 返り値：ログアウト完了のメッセージ
 func Logout(c *gin.Context) {
 	log.Println(c.Cookie("jwt"))
 	c.SetCookie("jwt", "", 3600, "/", "localhost", true, true)
-	c.JSON(http.StatusOK, gin.H{"msg": "Logout"})
+	c.JSON(http.StatusOK, gin.H{"msg": "ログアウトしました"})
 }
 
 
-/*
-ユーザー登録
-Parameters
-  email: メールアドレス
-  password: パスワード
-  password_confirm: 確認用パスワード
-*/
+// ユーザーの新規作成
+// 受信：
+//   email:メールアドレス
+//   password:パスワード
+//   password_confirm:パスワード（確認用）
+// 戻り値：
+//   成功時：ユーザー情報
+//   失敗時：エラーメッセージ(400)
 func Signup(c *gin.Context) {
 	var user models.User
 	email := c.PostForm("email")
 	password := c.PostForm("password")
 	password_confirm := c.PostForm("password_confirm")
 
-	// 登録済みの場合
+	// ユーザーが既に登録済みの場合
 	res := database.DB.Where("email = ?", email).First(&user)
-
 	if !errors.Is(res.Error, gorm.ErrRecordNotFound) {
-		c.JSON(http.StatusInternalServerError, gin.H{"err_msg": "メールアドレスが既に登録されています"})
+		c.JSON(http.StatusBadRequest, gin.H{"err_msg": "メールアドレスが既に登録されています"})
 		return
 	}
 
 	// パスワードが一致しない場合
 	if password != password_confirm {
-		c.JSON(http.StatusInternalServerError, gin.H{"err_msg": "パスワードが一致しません"})
+		c.JSON(http.StatusBadRequest, gin.H{"err_msg": "パスワードが一致しません"})
 		return
 	}
+	
 	// パスワードのエンコード
-	hashed_password, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"err_msg": "パスワードの暗号化でエラーが発生しました"})
-		return
-	}
+	hashed_password, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 
 	user = models.User{
 		Email:    email,
 		Password: hashed_password,
-	}
-
-	database.DB.Create(&user)
-
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"err_msg": err.Error()})
-		return
 	}
 	c.JSON(http.StatusOK, gin.H{"user": user})
 }
