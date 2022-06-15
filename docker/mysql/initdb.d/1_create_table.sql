@@ -60,16 +60,19 @@ CREATE TABLE bookmarks
 (
   id INT NOT NULL AUTO_INCREMENT UNIQUE,
   country_id VARCHAR(2),
+  user_id INT,
   FOREIGN KEY (country_id) REFERENCES countries(id),
+  FOREIGN KEY (user_id) REFERENCES users(id),
   PRIMARY KEY(id)
 );
 
 CREATE TABLE quiz_results
 (
   id INT NOT NULL AUTO_INCREMENT UNIQUE,
-  country_id VARCHAR(2),
+  weight FLOAT,
+  quiz_id INT,
   user_id INT,
-  FOREIGN KEY (country_id) REFERENCES countries(id),
+  FOREIGN KEY (quiz_id) REFERENCES quizzes(id),
   FOREIGN KEY (user_id) REFERENCES users(id),
   PRIMARY KEY(id)
 );
