@@ -6,7 +6,7 @@ import (
 
 type Bookmark struct {
 	gorm.Model
-	CountryId   string
+	CountryID   string
 	Country     Country
 	UserID      int
 	User        User
