@@ -111,7 +111,7 @@ func Logout(c *gin.Context) {
 //   password:パスワード
 //   password_confirm:パスワード（確認用）
 // 戻り値：
-//   成功時：ユーザー情報
+//   成功時：ユーザー登録完了メッセージ
 //   失敗時：エラーメッセージ(400)
 func Signup(c *gin.Context) {
 	var user models.User
@@ -131,7 +131,7 @@ func Signup(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"err_msg": "パスワードが一致しません"})
 		return
 	}
-	
+
 	// パスワードのエンコード
 	hashed_password, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 
@@ -139,5 +139,7 @@ func Signup(c *gin.Context) {
 		Email:    email,
 		Password: hashed_password,
 	}
-	c.JSON(http.StatusOK, gin.H{"user": user})
+
+	database.DB.Create(&user)
+	c.JSON(http.StatusOK, gin.H{"msg": "ユーザー登録が完了しました"})
 }
