@@ -2,19 +2,19 @@ package controllers
 
 import (
 	"errors"
+	"log"
 	"net/http"
 	"os"
-	"log"
+	"strings"
 	"time"
 
-	"gorm.io/gorm"
-	"golang.org/x/crypto/bcrypt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/raylicola/NFlaquiz/database"
 	"github.com/raylicola/NFlaquiz/models"
+	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
 )
-
 
 // Cookieからユーザー情報を取得する
 // 戻り値:
@@ -118,6 +118,11 @@ func Signup(c *gin.Context) {
 	email := c.PostForm("email")
 	password := c.PostForm("password")
 	password_confirm := c.PostForm("password_confirm")
+
+	if (len(strings.TrimSpace(email)) == 0) || (len(strings.TrimSpace(password)) == 0) || (len(strings.TrimSpace(password_confirm)) == 0) {
+		c.JSON(http.StatusBadRequest, gin.H{"err_msg": "未入力値があります"})
+		return
+	}
 
 	// ユーザーが既に登録済みの場合
 	res := database.DB.Where("email = ?", email).First(&user)
