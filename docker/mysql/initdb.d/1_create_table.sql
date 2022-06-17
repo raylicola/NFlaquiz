@@ -56,23 +56,15 @@ CREATE TABLE users
   PRIMARY KEY(id)
 );
 
-CREATE TABLE bookmarks
-(
-  id INT NOT NULL AUTO_INCREMENT UNIQUE,
-  country_id VARCHAR(2),
-  user_id INT,
-  FOREIGN KEY (country_id) REFERENCES countries(id),
-  FOREIGN KEY (user_id) REFERENCES users(id),
-  PRIMARY KEY(id)
-);
 
-CREATE TABLE quiz_results
+CREATE TABLE results
 (
   id INT NOT NULL AUTO_INCREMENT UNIQUE,
   weight FLOAT,
-  quiz_id INT,
+  bookmark INT,
+  country_id VARCHAR(2),
   user_id INT,
-  FOREIGN KEY (quiz_id) REFERENCES quizzes(id),
+  FOREIGN KEY (country_id) REFERENCES countries(id),
   FOREIGN KEY (user_id) REFERENCES users(id),
   PRIMARY KEY(id)
 );
