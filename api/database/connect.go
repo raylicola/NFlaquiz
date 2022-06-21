@@ -1,9 +1,11 @@
 package database
 
 import (
-  "os"
+	"os"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 var (
@@ -17,7 +19,9 @@ var (
 
 func Connect() {
   print(dsn)
-  db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+  db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+    Logger: logger.Default.LogMode(logger.Info),
+  })
   // 接続できなかった場合
   if err != nil {
     panic(err.Error())
