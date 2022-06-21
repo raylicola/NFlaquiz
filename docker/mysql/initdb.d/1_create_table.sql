@@ -1,4 +1,5 @@
 set global local_infile = 1;
+set global general_log = on;
 
 USE nflaquiz;
 
@@ -60,10 +61,10 @@ CREATE TABLE users
 CREATE TABLE results
 (
   id INT NOT NULL AUTO_INCREMENT UNIQUE,
-  weight FLOAT,
-  bookmark INT,
   country_id VARCHAR(2),
   user_id INT,
+  weight FLOAT,
+  bookmark INT,
   FOREIGN KEY (country_id) REFERENCES countries(id),
   FOREIGN KEY (user_id) REFERENCES users(id),
   PRIMARY KEY(id)
