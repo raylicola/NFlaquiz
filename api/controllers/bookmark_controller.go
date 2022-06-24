@@ -13,9 +13,10 @@ import (
 //   id: URLで指定 (/bookmark/:id)
 func UpdateBookmark(c *gin.Context) {
 	var result models.Result
-	id := c.Param("id")
+	country_id := c.Param("country_id")
+	user_id := c.Param("user_id")
 
-	database.DB.Table("results").Where("id=?",id).Find(&result)
+	database.DB.Table("results").Where("country_id=?",country_id).Where("user_id=?",user_id).Find(&result)
 
 	if result.Bookmark == 1 {
 		result.Bookmark = 0
