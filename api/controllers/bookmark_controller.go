@@ -10,7 +10,7 @@ import (
 
 // ブックマーク有無の更新
 // 受信：
-//   id: URLで指定 (/bookmark/:id)
+//   id: URLで指定 (/bookmark/:country_id/:user_id)
 func UpdateBookmark(c *gin.Context) {
 	var result models.Result
 	country_id := c.Param("country_id")
