@@ -32,6 +32,7 @@ func GetRouter() *gin.Engine {
 	router.POST("/signup", controllers.Signup)
 	router.POST("/login", controllers.Login)
 	router.GET("/logout", controllers.Logout)
+	router.GET("/map", controllers.GetMapInfo)
 
 	return router
 }
