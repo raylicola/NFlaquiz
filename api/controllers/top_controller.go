@@ -7,13 +7,14 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/raylicola/NFlaquiz/database"
 	"github.com/raylicola/NFlaquiz/models"
+	"github.com/raylicola/NFlaquiz/utils"
 )
 
 // トップページ地図情報を取得
 // 返り値:
 //   成功時：[country_id,name,description, bookmark, weight]の配列
 func GetMapInfo(c *gin.Context) {
-	user, err := User(c)
+	user, err := utils.AuthUser(c)
 	var mapInfo []models.MapInfo
 	if err != nil {
 		// ログインしていない場合

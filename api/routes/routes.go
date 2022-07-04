@@ -35,5 +35,6 @@ func GetRouter() *gin.Engine {
 	router.GET("/logout", controllers.Logout)
 	router.GET("/map", controllers.GetMapInfo)
 	router.PUT("/bookmark/:country_id/:user_id", controllers.UpdateBookmark)
+
 	return router
 }
