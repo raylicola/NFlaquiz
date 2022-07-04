@@ -18,6 +18,7 @@ func GetRouter() *gin.Engine {
 		AllowMethods: []string{
 				"POST",
 				"GET",
+				"PUT",
 		},
 		// 許可するHTTPリクエストヘッダ
 		AllowHeaders: []string{
@@ -33,6 +34,7 @@ func GetRouter() *gin.Engine {
 	router.POST("/login", controllers.Login)
 	router.GET("/logout", controllers.Logout)
 	router.GET("/map", controllers.GetMapInfo)
-	router.POST("/bookmark/:country_id", controllers.UpdateBookmark)
+	router.PUT("/bookmark/:country_id", controllers.UpdateBookmark)
+
 	return router
 }
