@@ -16,39 +16,13 @@ import (
 	"gorm.io/gorm"
 )
 
-// Cookieからユーザー情報を取得する
-// 戻り値:
-//   成功時：ユーザー情報
-//   失敗時：エラー情報
-func User(c *gin.Context) (*models.User, error){
-	cookie, err := c.Cookie("jwt")
-
-	if err != nil {
-		return nil, err
-	}
-
-	token, err := jwt.Parse(cookie, func(token *jwt.Token) (interface{}, error) {
-		return []byte("SECRET_KEY"), nil
-	})
-	if err != nil {
-		return nil, err
-	}
-	claims := token.Claims.(jwt.MapClaims)
-	id := claims["sub"]
-
-	var user models.User
-	database.DB.Where("id = ?", id).First(&user)
-
-	return &user, nil
-}
-
 
 // ログイン
 // 受信：
 //   email:メールアドレス
 //   password:パスワード
 // 返り値:
-//   成功時：jwtトークン
+//   成功時：ユーザー情報
 //   失敗時：エラーメッセージ(400)
 func Login(c *gin.Context) {
 	var user models.User
@@ -92,7 +66,7 @@ func Login(c *gin.Context) {
       c.SetCookie("jwt", cookie.Value, 3600, "/", "your_domain", true, true)
   }
 
-  c.JSON(http.StatusOK, gin.H{"jwt": tokenString})
+  c.JSON(http.StatusOK, gin.H{"user": user})
 }
 
 
