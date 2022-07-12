@@ -51,7 +51,7 @@ func SelectQuiz(c *gin.Context) {
 		// 正答率が低い順に10問選択
 		if bookmark == 1 {
 
-			database.DB.Distinct("quizzes.id, hiragana, quizzes.country_id, hint1, hint2, hint3, weight").Joins("left join countries on quizzes.country_id = countries.id").Joins("left join flag_colors on quizzes.country_id = flag_colors.country_id").Joins("left join results on results.country_id = quizzes.country_id").Where("user_id=?", user.ID).Where("bookmark=1").Where("color_id in (?)", colors).Where("area_id in (?)", areas).Order("weight").Limit(10).Find(&quizzes)
+			database.DB.Distinct("quizzes.id, hiragana, quizzes.country_id, hint1, hint2, hint3, weight").Joins("left join countries on quizzes.country_id = countries.id").Joins("left join flag_colors on quizzes.country_id = flag_colors.country_id").Joins("left join results on results.country_id = quizzes.country_id").Where("user_id=?", user.ID).Where("bookmark=1").Where("color_id in (?)", colors).Where("area_id in (?)", areas).Order("weight").Order("rand()").Limit(10).Find(&quizzes)
 
 		} else {
 
