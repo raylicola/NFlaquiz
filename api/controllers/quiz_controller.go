@@ -71,6 +71,14 @@ func SelectQuiz(c *gin.Context) {
 				query1,
 				query2,
 			).Scan(&quizzes)
+
+			// 10問に満たない場合は残りをweight>0.5のものから昇順で選択
+			if len(quizzes) < 10 {
+				var quizzes3 []models.Quiz
+				query1 = database.DB.Distinct("quizzes.id, hiragana, quizzes.country_id, hint1, hint2, hint3, weight").Joins("left join results on quizzes.country_id = results.country_id").Joins("left join countries on quizzes.country_id = countries.id").Joins("left join flag_colors on quizzes.country_id = flag_colors.country_id").Where("user_id=?", user.ID).Where("weight>0.5").Where("color_id in (?)", colors).Where("area_id in (?)", areas).Order("weight").Order("rand()").Limit(10-len(quizzes)).Find(&quizzes3)
+
+				quizzes = append(quizzes, quizzes3...)
+			}
 		}
 	}
 
