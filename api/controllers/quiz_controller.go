@@ -42,7 +42,7 @@ func SelectQuiz(c *gin.Context) {
 	if err != nil {
     // 1. ログインしていない場合
 		// 条件に合うものをランダムに選択
-		database.DB.Distinct("quizzes.id, hiragana, quizzes.country_id, hint1, hint2, hint3").Joins("left join countries on quizzes.country_id = countries.id").Joins("left join flag_colors on quizzes.country_id = flag_colors.country_id").Where("color_id in (?)", colors).Where("area_id in (?)", areas).Limit(10).Find(&quizzes)
+		database.DB.Distinct("quizzes.id, hiragana, quizzes.country_id, hint1, hint2, hint3").Joins("left join countries on quizzes.country_id = countries.id").Joins("left join flag_colors on quizzes.country_id = flag_colors.country_id").Where("color_id in (?)", colors).Where("area_id in (?)", areas).Order("rand()").Limit(10).Find(&quizzes)
 
 	} else {
 
